@@ -3,19 +3,19 @@ import datetime
 from model import Calendar
 
 
-def easter_test():
+def test_easter():
     expected_dates = [
-        '2018-04-01'
-        '2019-04-21'
-        '2020-04-12'
-        '2021-04-04'
-        '2022-04-17'
-        '2023-04-09'
-        '2024-03-31'
-        '2025-04-20'
-        '2026-04-05'
-        '2027-03-28'
-        '2028-04-16'
+        '2018-04-01',
+        '2019-04-21',
+        '2020-04-12',
+        '2021-04-04',
+        '2022-04-17',
+        '2023-04-09',
+        '2024-03-31',
+        '2025-04-20',
+        '2026-04-05',
+        '2027-03-28',
+        '2028-04-16',
     ]
     calculated_dates = []
     for year in range(2018, 2029, 1):
@@ -23,7 +23,7 @@ def easter_test():
     assert expected_dates == calculated_dates
 
 
-def public_holidays_test():
+def test_public_holidays():
     expected_dict = {
         '01 Jan - Saturday': 'New Year',
         '01 Mar - Tuesday': 'Carnival',
@@ -44,12 +44,12 @@ def public_holidays_test():
     assert expected_dict == Calendar(2022).public_holidays()
 
 
-def real_holidays_test():
+def test_real_holidays():
     expected_number = 11
     assert expected_number == Calendar(2022).real_holidays()
 
 
-def from_today_test():
+def test_from_today():
     calA = Calendar(datetime.date.today().year)
     calB = Calendar.from_today()
     assert isinstance(calB, Calendar)
