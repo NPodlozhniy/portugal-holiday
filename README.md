@@ -8,7 +8,7 @@ The project is dedicated to simplifying vacation planning
 
 Since it's a very simple app, all the packages used are built in, so if Python 3 is already installed, that is enough
 
-### How to install
+### Installation
 
 You can just copy the repo without installing any additional packages
 
@@ -16,7 +16,7 @@ You can just copy the repo without installing any additional packages
 $ git clone https://github.com/NPodlozhniy/portugal-holiday.git
 ```
 
-### How to run tests
+### Tests
 
 Open the folder where you just copied the app and run tests using pytest
 
