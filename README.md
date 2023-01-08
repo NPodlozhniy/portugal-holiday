@@ -1,5 +1,7 @@
 # portugal-holiday
 
+[![Python application](https://github.com/NPodlozhniy/portugal-holiday/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/NPodlozhniy/portugal-holiday/actions/workflows/python-app.yml)
+
 The project is dedicated to simplifying vacation planning
 
 ## Getting started
@@ -33,4 +35,3 @@ If you want to get the calendar for a speciefic year just add the `--year` argum
 ```
 $ python main.py --year 2000
 ```
-___
