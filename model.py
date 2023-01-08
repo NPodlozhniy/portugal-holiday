@@ -1,27 +1,27 @@
 import datetime
 
-class Calendar:
 
+class Calendar:
     def __init__(self, year):
         self.year = year
         self._fixed_dates = {
-            '01-01': 'New Year',
-            '04-25': 'Liberty Day',
-            '05-01': 'Labour Day',
-            '06-10': 'Day of Portugal',
-            '06-24': 'Saint John Porto',
-            '08-15': 'Lady Day',
-            '10-05': 'Republic Implementation',
-            '11-01': 'All Saints Day',
-            '12-01': 'Independence Day',
-            '12-08': 'Immaculate Conception Day',
-            '12-25': 'Christmas'
+            "01-01": "New Year",
+            "04-25": "Liberty Day",
+            "05-01": "Labour Day",
+            "06-10": "Day of Portugal",
+            "06-24": "Saint John Porto",
+            "08-15": "Lady Day",
+            "10-05": "Republic Implementation",
+            "11-01": "All Saints Day",
+            "12-01": "Independence Day",
+            "12-08": "Immaculate Conception Day",
+            "12-25": "Christmas",
         }
         self._relative_dates = {
-            -47: 'Carnival',
-            -2: 'Holy Friday',
-            +0: 'Easter',
-            +60: 'Body of Christ'
+            -47: "Carnival",
+            -2: "Holy Friday",
+            +0: "Easter",
+            +60: "Body of Christ",
         }
 
     @classmethod
@@ -41,7 +41,7 @@ class Calendar:
 
     @staticmethod
     def format_date(date: datetime.date) -> str:
-        return date.strftime('%d %b - %A')
+        return date.strftime("%d %b - %A")
 
     def easter(self) -> str:
         """
@@ -59,26 +59,19 @@ class Calendar:
         march_length = 31
         day = Q % march_length if Q > march_length else Q
         month = 3 + Q // (1 + march_length)
-        return '-'.join(['0' * (x < 10) + str(x)
-                         for x in [self.year, month, day]])
+        return "-".join(["0" * (x < 10) + str(x) for x in [self.year, month, day]])
 
     @property
     def flexible_holidays(self) -> dict:
         return {
-            self.to_date(
-                self.easter()
-            ) + datetime.timedelta(days=key): value
+            self.to_date(self.easter()) + datetime.timedelta(days=key): value
             for key, value in self._relative_dates.items()
         }
 
     @property
     def fixed_holidays(self) -> dict:
         return {
-            self.to_date(
-                '-'.join(
-                    [str(self.year), key]
-                )
-            ): value
+            self.to_date("-".join([str(self.year), key])): value
             for key, value in self._fixed_dates.items()
         }
 
@@ -89,10 +82,7 @@ class Calendar:
         fix_dict = self.fixed_holidays
         flex_dict = self.flexible_holidays
         fix_dict.update(flex_dict)
-        return {
-            self.format_date(key): value
-            for key, value in sorted(fix_dict.items())
-        }
+        return {self.format_date(key): value for key, value in sorted(fix_dict.items())}
 
     def real_holidays(self) -> int:
         """
