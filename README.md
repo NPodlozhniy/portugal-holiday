@@ -14,6 +14,7 @@ You can just copy the repo without installing any additional packages
 
 ```
 $ git clone https://github.com/NPodlozhniy/portugal-holiday.git
+$ cd portugal-holiday
 ```
 
 ### Tests
@@ -21,7 +22,7 @@ $ git clone https://github.com/NPodlozhniy/portugal-holiday.git
 Open the folder where you just copied the app and run tests using pytest
 
 ```
-$ cd portugal-holiday
+$ pip install -r requirements.txt
 $ python -m pytest
 ```
 
