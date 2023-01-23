@@ -3,6 +3,8 @@ import datetime
 
 class Calendar:
     def __init__(self, year):
+        if year < 1900 or year > 2099:
+            raise ValueError("The year should be between 1900 and 2099")
         self.year = year
         self._fixed_dates = {
             "01-01": "New Year",
@@ -33,7 +35,10 @@ class Calendar:
         """
         date: string in ISO 8601 format, YYYY-MM-DD
         """
-        return datetime.date.fromisoformat(date)
+        try:
+            return datetime.date.fromisoformat(date)
+        except ValueError as exc:
+            raise ValueError("The year should be 4-digit value") from None
 
     @staticmethod
     def is_weekend(date: datetime.date) -> bool:

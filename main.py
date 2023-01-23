@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--year",
     action="store",
-    help="specify the year (current year by default)",
+    help="specify the year between 1900 and 2099 (current year by default)",
     metavar="<YOUR YEAR>",
     nargs="?",
     type=int,
