@@ -54,3 +54,11 @@ def test_from_today():
     calB = Calendar.from_today()
     assert isinstance(calB, Calendar)
     assert calA.public_holidays() == calB.public_holidays()
+
+
+def test_years():
+    try:
+        Calendar(1812)
+        assert False
+    except ValueError as exception:
+        assert str(exception) == "The year should be between 1900 and 2099"
