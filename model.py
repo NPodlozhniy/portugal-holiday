@@ -35,10 +35,7 @@ class Calendar:
         """
         date: string in ISO 8601 format, YYYY-MM-DD
         """
-        try:
-            return datetime.date.fromisoformat(date)
-        except ValueError as exc:
-            raise ValueError("The year should be 4-digit value") from None
+        return datetime.date.fromisoformat(date)
 
     @staticmethod
     def is_weekend(date: datetime.date) -> bool:
