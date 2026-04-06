@@ -9,18 +9,27 @@ parser.add_argument(
     "--year",
     action="store",
     help="specify the year between 1900 and 2099 (current year by default)",
-    metavar="<YOUR YEAR>",
+    metavar="<YEAR>",
     nargs="?",
     type=int,
+)
+parser.add_argument(
+    "--region",
+    action="store",
+    help=f"include a regional holiday for the given municipality "
+         f"(optional). Available: {', '.join(Calendar.REGIONAL_HOLIDAYS)}",
+    metavar="<REGION>",
+    nargs="?",
+    type=str,
 )
 args = parser.parse_args()
 
 if __name__ == "__main__":
 
     if args.year:
-        calendar = Calendar(args.year)
+        calendar = Calendar(args.year, region=args.region)
     else:
-        calendar = Calendar.from_today()
+        calendar = Calendar.from_today(region=args.region)
 
     print(f"\n{calendar}\n")
 

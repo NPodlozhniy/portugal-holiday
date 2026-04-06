@@ -33,7 +33,6 @@ def test_public_holidays():
         "01 May - Sunday": "Labour Day",
         "10 Jun - Friday": "Day of Portugal",
         "16 Jun - Thursday": "Body of Christ",
-        "24 Jun - Friday": "Saint John Porto",
         "15 Aug - Monday": "Lady Day",
         "05 Oct - Wednesday": "Republic Implementation",
         "01 Nov - Tuesday": "All Saints Day",
@@ -45,8 +44,32 @@ def test_public_holidays():
 
 
 def test_real_holidays():
-    expected_number = 11
+    expected_number = 10
     assert expected_number == Calendar(2022).real_holidays()
+
+
+def test_regional_holiday():
+    cal_porto = Calendar(2022, region="porto")
+    holidays = cal_porto.public_holidays()
+    assert "24 Jun - Friday" in holidays
+    assert holidays["24 Jun - Friday"] == "Saint John"
+    assert len(holidays) == len(Calendar(2022).public_holidays()) + 1
+
+    cal_lisbon = Calendar(2022, region="lisbon")
+    holidays = cal_lisbon.public_holidays()
+    assert "13 Jun - Monday" in holidays
+    assert holidays["13 Jun - Monday"] == "Saint Anthony"
+
+    # region matching should be case-insensitive
+    assert Calendar(2022, region="Porto").public_holidays() == cal_porto.public_holidays()
+
+
+def test_invalid_region():
+    try:
+        Calendar(2022, region="invalid_city")
+        assert False
+    except ValueError as exception:
+        assert "invalid_city" in str(exception)
 
 
 def test_from_today():

@@ -2,16 +2,47 @@ import datetime
 
 
 class Calendar:
-    def __init__(self, year):
+    REGIONAL_HOLIDAYS = {
+        "obidos": ("01-11", "Reconquista Day"),
+        "santarem": ("03-19", "Saint Joseph"),
+        "arouca": ("05-02", "Queen Saint Mafalda"),
+        "aveiro": ("05-12", "Saint Joana"),
+        "caldas-da-rainha": ("05-15", "City Founding Day"),
+        "leiria": ("05-22", "City and Diocese Day"),
+        "lisbon": ("06-13", "Saint Anthony"),
+        "cascais": ("06-13", "Saint Anthony"),
+        "vila-real": ("06-13", "Saint Anthony"),
+        "porto": ("06-24", "Saint John"),
+        "braga": ("06-24", "Saint John"),
+        "guimaraes": ("06-24", "Saint John"),
+        "vila-nova-de-gaia": ("06-24", "Saint John"),
+        "almada": ("06-24", "Saint John"),
+        "sintra": ("06-29", "Saint Peter"),
+        "evora": ("06-29", "Saint Peter"),
+        "coimbra": ("07-04", "Queen Saint Isabel"),
+        "viana-do-castelo": ("08-20", "Our Lady of Agony"),
+        "funchal": ("08-21", "City Day"),
+        "braganca": ("08-22", "Our Lady of Gracas"),
+        "faro": ("09-07", "City Day"),
+        "setubal": ("09-15", "Bocage Day"),
+        "viseu": ("09-21", "Saint Matthew"),
+        "portimao": ("12-11", "City Day"),
+    }
+
+    def __init__(self, year, region=None):
         if year < 1900 or year > 2099:
             raise ValueError("The year should be between 1900 and 2099")
+        if region is not None and region.lower() not in self.REGIONAL_HOLIDAYS:
+            raise ValueError(
+                f"Unknown region: {region!r}. Available: {', '.join(self.REGIONAL_HOLIDAYS)}"
+            )
         self.year = year
+        self.region = region.lower() if region else None
         self._fixed_dates = {
             "01-01": "New Year",
             "04-25": "Liberty Day",
             "05-01": "Labour Day",
             "06-10": "Day of Portugal",
-            "06-24": "Saint John Porto",
             "08-15": "Lady Day",
             "10-05": "Republic Implementation",
             "11-01": "All Saints Day",
@@ -27,8 +58,8 @@ class Calendar:
         }
 
     @classmethod
-    def from_today(cls):
-        return cls(datetime.date.today().year)
+    def from_today(cls, region=None):
+        return cls(datetime.date.today().year, region=region)
 
     @staticmethod
     def to_date(date: str) -> datetime.date:
@@ -77,23 +108,29 @@ class Calendar:
             for key, value in self._fixed_dates.items()
         }
 
+    @property
+    def regional_holiday(self) -> dict:
+        if self.region is None:
+            return {}
+        date_str, name = self.REGIONAL_HOLIDAYS[self.region]
+        return {self.to_date(f"{self.year}-{date_str}"): name}
+
+    def _all_holidays(self) -> dict:
+        result = {**self.fixed_holidays, **self.flexible_holidays, **self.regional_holiday}
+        return result
+
     def public_holidays(self) -> dict:
         """
         Returns the dictionary of public holidays related to the specified year
         """
-        fix_dict = self.fixed_holidays
-        flex_dict = self.flexible_holidays
-        fix_dict.update(flex_dict)
-        return {self.format_date(key): value for key, value in sorted(fix_dict.items())}
+        return {self.format_date(key): value for key, value in sorted(self._all_holidays().items())}
 
     def real_holidays(self) -> int:
         """
         Returns the number of public holidays that are not the same as a normal weekend
         """
-        fix_dict = self.fixed_holidays
-        flex_dict = self.flexible_holidays
-        fix_dict.update(flex_dict)
-        return sum(not self.is_weekend(date) for date in fix_dict.keys())
+        return sum(not self.is_weekend(date) for date in self._all_holidays().keys())
 
     def __repr__(self) -> str:
-        return f"<Portugal Holidays Calendar for {self.year}>"
+        region_str = f" ({self.region.replace('-', ' ').title()})" if self.region else ""
+        return f"<Portugal Holidays Calendar for {self.year}{region_str}>"
