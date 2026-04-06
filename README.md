@@ -1,38 +1,46 @@
 # portugal-holiday
 
-[![Python application](https://github.com/NPodlozhniy/portugal-holiday/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/NPodlozhniy/portugal-holiday/actions/workflows/python-app.yml)
+[![Python application](https://img.shields.io/github/actions/workflow/status/NPodlozhniy/portugal-holiday/python-app.yml?branch=master&label=build)](https://github.com/NPodlozhniy/portugal-holiday/actions/workflows/python-app.yml)
 
-The project is dedicated to simplifying vacation planning
+Know exactly how many days off you get — and when — for any year between 1900 and 2099.
+
+`portugal-holiday` calculates all Portuguese public holidays, including moveable feasts tied to Easter (Carnival, Holy Friday, Body of Christ), and optionally adds the municipal holiday for your city.
 
 ## Getting started
 
-Since it's a very simple app, all the packages used are built in, so if Python 3 is already installed, that is enough
-
-### Installation
-
-You can just copy the repo without installing any additional packages
+No external dependencies required — Python 3 is all you need.
 
 ```
 $ git clone https://github.com/NPodlozhniy/portugal-holiday.git
 $ cd portugal-holiday
 ```
 
-### Tests
+## Usage
 
-Open the folder where you just copied the app and run tests using pytest
+Get the holiday calendar for the current year:
+```
+$ python main.py
+```
+
+Specify a year:
+```
+$ python main.py --year 2025
+```
+
+Add your city's municipal holiday with `--region`:
+```
+$ python main.py --year 2025 --region lisbon
+$ python main.py --region sintra
+```
+
+Supported regions: `almada`, `arouca`, `aveiro`, `braganca`, `braga`, `caldas-da-rainha`,
+`cascais`, `coimbra`, `evora`, `faro`, `funchal`, `guimaraes`, `leiria`, `lisbon`,
+`obidos`, `portimao`, `porto`, `santarem`, `setubal`, `sintra`, `viana-do-castelo`,
+`vila-nova-de-gaia`, `vila-real`, `viseu`.
+
+## Tests
 
 ```
 $ pip install -r requirements.txt
 $ python -m pytest
-```
-
-### Usage
-
-To get the holiday calendar for the current year, just run the following command
-```
-$ python main.py
-```
-If you want to get the calendar for a speciefic year just add the `--year` argument, for example
-```
-$ python main.py --year 2000
 ```
